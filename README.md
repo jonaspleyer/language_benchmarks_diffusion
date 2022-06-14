@@ -19,7 +19,6 @@ such that the iterative calculation we want to perform is:
 $$\begin{aligned}
 u^{n+1}_{i,j} &= &\Delta tF(u^n_{i,j},v^n_{i,j}) &+ \frac{\Delta t D_u}{\Delta x^2}(u^n_{i+1,j} - 2u^n_{i,j} + u^n_{i-1,j}) &+ \frac{\Delta t D_u}{\Delta y^2}(u^n_{i,j+1} - 2u^n_{i,j} + u^n_{i,j-1}) &+ u^n_{i,j}\\
 v^{n+1}_{i,j} &= &\Delta tG(u^n_{i,j},v^n_{i,j}) &+ \frac{\Delta t D_v}{\Delta x^2}(v^n_{i+1,j} - 2v^n_{i,j} + v^n_{i-1,j}) &+ \frac{\Delta t D_v}{\Delta x^2}(v^n_{i,j+1} - 2v^n_{i,j} + v^n_{i,j-1}) &+ v^n_{i,j}
-% TODO make this formula correct
 \end{aligned}$$
 We solve this equation with Neumann-Boundary conditions $\partial_x u,\partial_x v=0$ and initialise with a random white noise.
 A complete list of parameters can be found ...
