@@ -33,24 +33,22 @@ void update_diffusion(int rows, int cols, double** X, double** Y, double t, doub
 
 int main() {
     double t = 0.0;
-    double t_max = 100.0;
-    double dt = 0.01;
+    double t_max = 500.0;
+    double dt = 0.1;
 
-    double x_min = -200;
-    double x_max = 200;
-    int n_x = 40;
+    double x_min = -600;
+    double x_max = 600;
+    int n_x = 30;
     double dx = (x_max-x_min)/dx;
 
-    double y_min = -200;
-    double y_max = 200;
-    int n_y = 40;
+    double y_min = -600;
+    double y_max = 600;
+    int n_y = 30;
     double dy = (y_max-y_min)/dy;
 
-    double diffusion_constant = 300.0;
+    double diffusion_constant = 100.0;
 
     int i;
-    int rows = 1000;
-    int cols = 1000;
 
     double **X;
     double **Y;
@@ -58,17 +56,24 @@ int main() {
     /* obtain values for rows & cols */
 
     /* allocate the array */
-    X = malloc(rows * sizeof *X);
-    Y = malloc(rows * sizeof *Y);
+    X = malloc(n_x * sizeof *X);
+    Y = malloc(n_y * sizeof *Y);
 
-    for (i=0; i<rows; i++) {
-        X[i] = malloc(cols * sizeof *X[i]);
-        Y[i] = malloc(cols * sizeof *Y[i]);
+    for (i=0; i<n_x; i++) {
+        X[i] = malloc(n_y * sizeof *X[i]);
+        Y[i] = malloc(n_y * sizeof *Y[i]);
+    }
+
+    for (int i=0; i<n_x; i++) {
+        for (int j=0; j<n_y; j++) {
+            X[i][j] = 0.0001;
+            Y[i][j] = 0.0001;
+        }
     }
 
 
     while (t < t_max) {
-        update_diffusion(rows, cols, X, Y, t, dt, diffusion_constant, dx, dy);
+        update_diffusion(n_x, n_y, X, Y, t, dt, diffusion_constant, dx, dy);
         t += dt;
     }
 
@@ -76,9 +81,17 @@ int main() {
         X[0][0],
         Y[0][0]
     );
+    printf("%f %f\n",
+        X[5][5],
+        Y[5][5]
+    );
+    printf("%f %f\n",
+        X[15][15],
+        Y[15][15]
+    );
 
     /* deallocate the array */
-    for (i=0; i<rows; i++) {
+    for (i=0; i<n_x; i++) {
         free(X[i]);
         free(Y[i]);
     }
