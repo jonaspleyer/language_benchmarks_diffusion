@@ -1,3 +1,4 @@
 results_C_*
 diffusion_gcc
 diffusion_clang
+report.txt

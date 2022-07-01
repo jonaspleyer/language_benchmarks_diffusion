@@ -2,6 +2,11 @@ TARGET:=diffusion.c
 OUTPUT:=diffusion
 OPTIONS:=-O3
 
+all: gcc clang bench
+
+bench:
+	./bench.sh
+
 gcc:
 	gcc $(OPTIONS) $(TARGET) -o $(OUTPUT)_gcc
 
