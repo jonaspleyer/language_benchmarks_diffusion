@@ -16,3 +16,6 @@ clang:
 clean:
 	-rm $(OUTPUT)_gcc
 	-rm $(OUTPUT)_clang
+	-rm *.csv
+	-rm *.png
+	-rm *.txt
