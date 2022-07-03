@@ -149,6 +149,7 @@ void add_reaction_terms(Matrix3D &dN, const Matrix3D &N) {
 }
 
 
+// TODO this is not working yet!
 ThomasConstants define_thomas_constants(const int N, const double* D, const double &dx, const double &dy, const double &dt) {
 
 }
