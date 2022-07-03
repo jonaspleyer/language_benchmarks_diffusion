@@ -28,10 +28,10 @@ typedef struct {
 
 
 typedef struct {
-    double* a;
-    double* b;
-    double* c;
-    double* cp;
+    Matrix3D a;
+    Matrix3D b;
+    Matrix3D c;
+    Matrix3D cp;
 } ThomasConstants;
 
 
@@ -41,6 +41,7 @@ void print_Matrix3D(Matrix3D N);
 Matrix2D get_2D_random_initial_values(double min, double max, int size_x, int size_y);
 Matrix3D get_initial_values(int n_components, double min[], double max[], int size_x, int size_y);
 void add_reaction_terms(Matrix3D &dN, const Matrix3D &N);
+ThomasConstants define_thomas_constants(const int N, const double* D, const double &dx, const double &dy, const double &dt);
 
 
 int main(int argc, char* argv[]) {
@@ -50,11 +51,12 @@ int main(int argc, char* argv[]) {
     // Get sizes from arguments of function
     // int size_x = atoi(argv[1]);
     // int size_y = atoi(argv[2]);
+    int n_components = 2;
     int size_x = 10;
     int size_y = 10;
 
     // Define values for diffusion constants
-    double D[2] = {100.0, 5000.0};
+    double D[n_components] = {100.0, 5000.0};
 
     // Define values for spatial separation
     double dx = 20.0;
@@ -65,39 +67,20 @@ int main(int argc, char* argv[]) {
     double tmax = 100.0;
     double dt = 0.1;
     
-    // Define minimum and maximum values
-    double mins[2] = {200, 900};
-    double maxs[2] = {250, 950};
-    double nots[2] = {0.0, 0.0};
+    // Define initial values
+    double mins[n_components] = {200, 900};
+    double maxs[n_components] = {250, 950};
+    double nots[n_components] = {0.0, 0.0};
     Matrix3D N = get_initial_values(2, mins, maxs, size_x, size_y);
     Matrix3D dN = get_initial_values(2, nots, nots, size_x, size_y);
-
-    double ax[size_x];
-    double ay[size_y];
-    double bx[size_x];
-    double by[size_y];
-    double cx[size_x];
-    double cy[size_y];
-    double cpx[size_x];
-    double cpy[size_y];
-    double rx[2];
-    double ry[2];
-
-    for (int i=0; i<2; i++) {
-        rx[i] = D[i]/pow(dx, 2.0) * dt;
-        ry[i] = D[i]/pow(dy, 2.0) * dt;
-    }
-
-    // for (int i=0; i<size_x; i++) {
-    //     ax[i] = rx
-    //     bx[i] = 
-    // }
-    // 
-    // ThomasConstants TCx = {
-    //     
-    // }
     
+    // For testing of reaction terms.
     add_reaction_terms(dN, N);
+
+    ThomasConstants TC = define_thomas_constants(n_components, D, dx, dy, dt);
+
+
+    // add_diffusion_terms(dN, N, TC);
 
     print_Matrix3D(dN);
 
@@ -127,7 +110,7 @@ void thomas_algorithm(const int N, const double* a, const double* b, const doubl
 }
 
 
-void add_diffusion_terms(Matrix3D &dN, const Matrix3D &N) {
+void add_diffusion_terms(Matrix3D &dN, const Matrix3D &N, const ThomasConstants &ct) {
     for (int i=0; i<N.size_x; i++) {
         for (int j=0; j<N.size_y; j++) {
             for (int k=0; k<N.size_z; k++) {
@@ -165,6 +148,10 @@ void add_reaction_terms(Matrix3D &dN, const Matrix3D &N) {
     }
 }
 
+
+ThomasConstants define_thomas_constants(const int N, const double* D, const double &dx, const double &dy, const double &dt) {
+
+}
 
 
 // Simple helper function to print a 2D matrix
